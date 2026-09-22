@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
+import { SITE_METADATA } from "@/constant/metaConstant";
 import "./globals.css";
 
 const inter = Inter({
@@ -11,12 +12,13 @@ const inter = Inter({
 const plusJakartaSans = Plus_Jakarta_Sans({
   variable: "--font-plus-jakarta-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
-  title: "Ticketing Solution | Smart Attraction & Ticketing Platform",
-  description: "A unified desktop platform for managing attractions, ticket bookings, visitors, seating and daily operations.",
+  title: SITE_METADATA.title,
+  description: SITE_METADATA.description,
+  icons: SITE_METADATA.icons,
 };
 
 export default function RootLayout({

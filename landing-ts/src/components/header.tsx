@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { PAGE_TITLES } from "@/constant/metaConstant";
 
 interface HeaderProps {
   activeTab?: string;
@@ -16,6 +17,13 @@ export default function Header({
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [currentTab, setCurrentTab] = useState(activeTab);
 
+  const titleMap: Record<string, string> = {
+    Home: PAGE_TITLES.HOME,
+    Process: PAGE_TITLES.PROCESS,
+    Features: PAGE_TITLES.FEATURES,
+    About: PAGE_TITLES.ABOUT,
+  };
+
   const navLinks = [
     { name: "Home", href: "#home" },
     { name: "Process", href: "#process" },
@@ -25,6 +33,9 @@ export default function Header({
 
   const handleNavClick = (tabName: string) => {
     setCurrentTab(tabName);
+    if (titleMap[tabName]) {
+      document.title = titleMap[tabName];
+    }
     if (onTabChange) {
       onTabChange(tabName);
     }
@@ -214,25 +225,6 @@ export default function Header({
                     }}
                   >
                     <span>{link.name}</span>
-                    {isActive ? (
-                      <span className="drawer-active-badge" />
-                    ) : (
-                      <svg
-                        width="6"
-                        height="10"
-                        viewBox="0 0 6 10"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M1 1L5 5L1 9"
-                          stroke="#94A3B8"
-                          strokeWidth="1.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    )}
                   </a>
                 </li>
               );
@@ -355,13 +347,12 @@ export default function Header({
         .ticketing-brand-subtitle {
           font-family: var(--font-inter), 'Inter', sans-serif;
           font-style: normal;
-          font-weight: 300;
+          font-weight: 400;
           font-size: 13px;
           line-height: 16px;
-          letter-spacing: 0.44em;
+          letter-spacing: 0.24em;
           color: #002A45;
           margin-top: 2px;
-          text-transform: uppercase;
           display: block;
         }
 
@@ -396,7 +387,7 @@ export default function Header({
           font-weight: 500;
           font-size: 16px;
           line-height: 22px;
-          color: #002A45;
+          color: #206997ff;
           text-decoration: none;
           position: relative;
           padding: 6px 2px;
@@ -412,16 +403,16 @@ export default function Header({
         }
 
         .ticketing-nav-link.active {
-          font-weight: 600;
-          color: #002A45;
+          font-weight: 700;
+           color: #206997ff;
         }
 
         .ticketing-nav-indicator {
           position: absolute;
-          bottom: -4px;
+          bottom: -3px;
           left: 0;
           width: 100%;
-          height: 2.5px;
+          height: 2.2px;
           background: #D99A26;
           border-radius: 4px;
         }
@@ -445,7 +436,7 @@ export default function Header({
           text-decoration: none;
           font-family: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', sans-serif;
           font-style: normal;
-          font-weight: 600;
+          font-weight: 500;
           font-size: 16px;
           line-height: 20px;
           letter-spacing: 0.04em;
