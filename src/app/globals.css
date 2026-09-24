@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  height: 100%;
+  overflow: hidden;            /* html never scrolls — only body scrolls */
+  scroll-behavior: smooth;
+}
+
+body {
+  height: 100%;               /* constrained to viewport → content overflow = real scroll */
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  max-width: 100vw;
+  font-family: var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: #ffffff;
+  color: #002A45;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ── Custom scrollbar: thin + light grey ── */
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #c8d0d8;
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #a0aab4;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #c8d0d8 transparent;
+}
+
+/* Hide Next.js bottom-left dev indicator badge and overlays */
+nextjs-portal,
+[data-nextjs-toast],
+[data-nextjs-dialog-overlay],
+button[aria-label*="Next.js"],
+div[data-nextjs-route-announcer],
+div[class*="nextjs-toast"],
+#__next-build-watcher {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
