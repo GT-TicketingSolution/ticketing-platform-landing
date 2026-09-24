@@ -3,33 +3,63 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { PAGE_TITLES } from "@/constant/metaConstant";
 
 interface HeaderProps {
   activeTab?: string;
   onTabChange?: (tab: string) => void;
+  onSignUpClick?: () => void;
 }
 
 export default function Header({
   activeTab = "Home",
   onTabChange,
+  onSignUpClick,
 }: HeaderProps) {
+  const pathname = usePathname();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-  const [currentTab, setCurrentTab] = useState(activeTab);
+  const [currentTab, setCurrentTab] = useState(
+    pathname === "/support" ? "Support" : activeTab
+  );
+
+  useEffect(() => {
+    if (pathname === "/support") {
+      setCurrentTab("Support");
+    } else if (activeTab) {
+      setCurrentTab(activeTab);
+    }
+  }, [activeTab, pathname]);
 
   const titleMap: Record<string, string> = {
     Home: PAGE_TITLES.HOME,
     Process: PAGE_TITLES.PROCESS,
     Features: PAGE_TITLES.FEATURES,
-    About: PAGE_TITLES.ABOUT,
+    Support: "Support | Ticketing Solution",
   };
 
   const navLinks = [
     { name: "Home", href: "#home" },
-    { name: "Process", href: "#process" },
+    { name: "How its works", href: "#how-it-works" },
     { name: "Features", href: "#features" },
-    { name: "About", href: "#about" },
+    { name: "Support", href: "/support" }
   ];
+
+  const handleNavLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, link: { name: string; href: string }) => {
+    if (link.href.startsWith("#")) {
+      const target = document.querySelector(link.href);
+      if (target) {
+        e.preventDefault();
+        handleNavClick(link.name);
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        // If on another route like /support, navigate to /#section
+        window.location.href = "/" + link.href;
+      }
+    } else {
+      handleNavClick(link.name);
+    }
+  };
 
   const handleNavClick = (tabName: string) => {
     setCurrentTab(tabName);
@@ -94,20 +124,28 @@ export default function Header({
           <nav className="ticketing-desktop-nav" aria-label="Main Navigation">
             <ul className="ticketing-nav-list">
               {navLinks.map((link) => {
-                const isActive = currentTab === link.name;
+                const isActive = currentTab === link.name || (link.href === "/support" && pathname === "/support");
                 return (
                   <li key={link.name} className="ticketing-nav-item">
-                    <a
-                      href={link.href}
-                      className={`ticketing-nav-link ${isActive ? "active" : ""}`}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        handleNavClick(link.name);
-                      }}
-                    >
-                      {link.name}
-                      {isActive && <span className="ticketing-nav-indicator" />}
-                    </a>
+                    {link.href.startsWith("#") ? (
+                      <a
+                        href={link.href}
+                        className={`ticketing-nav-link ${isActive ? "active" : ""}`}
+                        onClick={(e) => handleNavLinkClick(e, link)}
+                      >
+                        {link.name}
+                        {isActive && <span className="ticketing-nav-indicator" />}
+                      </a>
+                    ) : (
+                      <Link
+                        href={link.href}
+                        className={`ticketing-nav-link ${isActive ? "active" : ""}`}
+                        onClick={() => handleNavClick(link.name)}
+                      >
+                        {link.name}
+                        {isActive && <span className="ticketing-nav-indicator" />}
+                      </Link>
+                    )}
                   </li>
                 );
               })}
@@ -116,10 +154,11 @@ export default function Header({
 
           {/* Desktop Right Action */}
           <div className="ticketing-header-right">
-            <a
-              href="#signup"
+            <button
+              type="button"
               className="ticketing-signup-btn"
               id="header-signup-btn"
+              onClick={() => { if (onSignUpClick) onSignUpClick(); }}
             >
               <span>Sign Up</span>
               <svg
@@ -139,7 +178,7 @@ export default function Header({
                   strokeLinejoin="round"
                 />
               </svg>
-            </a>
+            </button>
 
             {/* Mobile Hamburger Button */}
             <button
@@ -213,19 +252,28 @@ export default function Header({
         <nav className="ticketing-drawer-nav" aria-label="Mobile Navigation">
           <ul className="ticketing-drawer-nav-list">
             {navLinks.map((link) => {
-              const isActive = currentTab === link.name;
+              const isActive = currentTab === link.name || (link.href === "/support" && pathname === "/support");
               return (
                 <li key={link.name} className="ticketing-drawer-nav-item">
-                  <a
-                    href={link.href}
-                    className={`ticketing-drawer-nav-link ${isActive ? "active" : ""}`}
-                    onClick={(e) => {
-                      e.preventDefault();
-                      handleNavClick(link.name);
-                    }}
-                  >
-                    <span>{link.name}</span>
-                  </a>
+                  {link.href.startsWith("#") ? (
+                    <a
+                      href={link.href}
+                      className={`ticketing-drawer-nav-link ${isActive ? "active" : ""}`}
+                      onClick={(e) => handleNavLinkClick(e, link)}
+                    >
+                      <span>{link.name}</span>
+                      {isActive && <span className="drawer-active-badge" />}
+                    </a>
+                  ) : (
+                    <Link
+                      href={link.href}
+                      className={`ticketing-drawer-nav-link ${isActive ? "active" : ""}`}
+                      onClick={() => handleNavClick(link.name)}
+                    >
+                      <span>{link.name}</span>
+                      {isActive && <span className="drawer-active-badge" />}
+                    </Link>
+                  )}
                 </li>
               );
             })}
@@ -233,10 +281,10 @@ export default function Header({
         </nav>
 
         <div className="ticketing-drawer-footer">
-          <a
-            href="#signup"
+          <button
+            type="button"
             className="ticketing-signup-btn drawer-signup-btn"
-            onClick={() => setIsDrawerOpen(false)}
+            onClick={() => { setIsDrawerOpen(false); if (onSignUpClick) onSignUpClick(); }}
           >
             <span>Sign Up</span>
             <svg
@@ -255,7 +303,7 @@ export default function Header({
                 strokeLinejoin="round"
               />
             </svg>
-          </a>
+          </button>
         </div>
       </aside>
 

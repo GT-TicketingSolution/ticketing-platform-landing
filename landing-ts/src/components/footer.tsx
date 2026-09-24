@@ -1,24 +1,60 @@
 "use client";
 
-import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export default function Footer() {
   const quickLinks = [
     { name: "Home", href: "#home" },
-    { name: "Process", href: "#process" },
+    { name: "How its works", href: "#how-it-works" },
     { name: "Features", href: "#features" },
-    { name: "About", href: "#about" },
   ];
 
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith("#")) {
+      const target = document.querySelector(href);
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        // If target is not on current page (e.g. from /support), navigate to /#section
+        window.location.href = "/" + href;
+      }
+    }
+  };
+
+  const router = useRouter();
+
   const supportLinks = [
-    { name: "Help Center", href: "#help" },
-    { name: "FAQs", href: "#faqs" },
-    { name: "Terms & Conditions", href: "#terms" },
-    { name: "Privacy Policy", href: "#privacy" },
-    { name: "Cancellation Policy", href: "#cancellation" },
+    { name: "Help Center", href: "/support#help-center" },
+    { name: "FAQs", href: "/support#faqs" },
+    { name: "Terms & Conditions", href: "/terms" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
   ];
+
+  const handleSupportLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href === "/terms" || href === "/privacy-policy") {
+      e.preventDefault();
+      router.push(href);
+    } else if (href.startsWith("/support#")) {
+      const hash = href.split("#")[1];
+      if (typeof window !== "undefined" && window.location.pathname === "/support") {
+        e.preventDefault();
+        const target = document.getElementById(hash);
+        if (target) {
+          target.scrollIntoView({ behavior: "smooth", block: "center" });
+          window.history.pushState(null, "", href);
+        }
+      }
+    } else if (href.startsWith("#")) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+    }
+  };
 
   return (
     <>
@@ -49,46 +85,122 @@ export default function Footer() {
               </p>
             </div>
 
-            {/* Column 2: Quick Links */}
-            <div className="footer-nav-col">
-              <h3 className="footer-col-title">Quick Links</h3>
-              <ul className="footer-link-list">
-                {quickLinks.map((link) => (
-                  <li key={link.name} className="footer-link-item">
-                    <a href={link.href} className="footer-link">
-                      {link.name}
+            {/* Navigation & Contact Columns Group */}
+            <div className="footer-nav-group">
+              {/* Column 2: Quick Links */}
+              <div className="footer-nav-col footer-quick-col">
+                <h3 className="footer-col-title">Quick Links</h3>
+                <ul className="footer-link-list">
+                  {quickLinks.map((link) => (
+                    <li key={link.name} className="footer-link-item">
+                      <a href={link.href} className="footer-link" onClick={(e) => handleLinkClick(e, link.href)}>
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Vertical Divider 1 */}
+              <div className="footer-divider-line" aria-hidden="true" />
+
+              {/* Column 3: Support */}
+              <div className="footer-nav-col footer-support-col">
+                <h3 className="footer-col-title">Support</h3>
+                <ul className="footer-link-list">
+                  {supportLinks.map((link) => (
+                    <li key={link.name} className="footer-link-item">
+                      <a
+                        href={link.href}
+                        className="footer-link"
+                        onClick={(e) => handleSupportLinkClick(e, link.href)}
+                      >
+                        {link.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+
+              {/* Vertical Divider 2 */}
+              <div className="footer-divider-line" aria-hidden="true" />
+
+              {/* Column 4: Contact */}
+              <div className="footer-nav-col footer-contact-col">
+                <h3 className="footer-col-title">Contact</h3>
+                <ul className="footer-contact-list">
+                  {/* 1. Mobile / Phone Number */}
+                  <li className="footer-contact-item">
+                    <a href="tel:+919876543210" className="footer-contact-link" aria-label="Phone number">
+                      <span className="footer-contact-icon-wrap" aria-hidden="true">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+                        </svg>
+                      </span>
+                      <span className="footer-contact-text">+91 **********</span>
                     </a>
                   </li>
-                ))}
-              </ul>
-            </div>
 
-            {/* Vertical Divider 1 */}
-            <div className="footer-divider-line" aria-hidden="true" />
-
-            {/* Column 3: Support */}
-            <div className="footer-nav-col footer-support-col">
-              <h3 className="footer-col-title">Support</h3>
-              <ul className="footer-link-list">
-                {supportLinks.map((link) => (
-                  <li key={link.name} className="footer-link-item">
-                    <a href={link.href} className="footer-link">
-                      {link.name}
+                  {/* 2. Email Address */}
+                  <li className="footer-contact-item">
+                    <a href="mailto:support@ticketingsolution.com" className="footer-contact-link" aria-label="Email address">
+                      <span className="footer-contact-icon-wrap" aria-hidden="true">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                          <polyline points="22,6 12,13 2,6" />
+                        </svg>
+                      </span>
+                      <span className="footer-contact-text">support@ticketingsolution.com</span>
                     </a>
                   </li>
-                ))}
-              </ul>
-            </div>
 
-            {/* Vertical Divider 2 */}
-            <div className="footer-divider-line" aria-hidden="true" />
+                  {/* 3. Instagram */}
+                  <li className="footer-contact-item">
+                    <a
+                      href="https://instagram.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="footer-contact-link"
+                      aria-label="Instagram profile"
+                    >
+                      <span className="footer-contact-icon-wrap" aria-hidden="true">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                        </svg>
+                      </span>
+                      <span className="footer-contact-text">Instagram: Link here come</span>
+                    </a>
+                  </li>
+
+                  {/* 4. Facebook */}
+                  <li className="footer-contact-item">
+                    <a
+                      href="https://facebook.com"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="footer-contact-link"
+                      aria-label="Facebook page"
+                    >
+                      <span className="footer-contact-icon-wrap" aria-hidden="true">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                        </svg>
+                      </span>
+                      <span className="footer-contact-text">Facebook: link here come</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
 
         {/* Bottom Bar: Copyright */}
         <div className="footer-bottom-bar">
           <p className="footer-copyright">
-            &copy; 2026 Ticketing Solution. All Rights Reserved.
+            &copy; {new Date().getFullYear()} Ticketing Solution. All Rights Reserved.
           </p>
         </div>
       </footer>
@@ -109,24 +221,23 @@ export default function Footer() {
 
         .footer-container {
           width: 100%;
-          max-width: 1340px;
+          max-width: 1280px;
           margin: 0 auto;
-          padding: 68px clamp(24px, 4vw, 56px) 56px clamp(24px, 4vw, 56px);
+          padding: 64px clamp(20px, 3.5vw, 48px) 50px clamp(20px, 3.5vw, 48px);
           box-sizing: border-box;
         }
 
         .footer-main-grid {
           display: flex;
           align-items: flex-start;
-          gap: 0;
+          justify-content: space-between;
           width: 100%;
         }
 
         /* ── Column 1: Brand & Desc ── */
         .footer-brand-col {
-          width: 253px;
+          width: 250px;
           flex-shrink: 0;
-          margin-right: clamp(60px, 8vw, 120px);
         }
 
         .footer-logo-link {
@@ -185,21 +296,44 @@ export default function Footer() {
         }
 
         .footer-brand-desc {
-          margin-top: 24px;
-          width: 253px;
+          margin-top: 20px;
+          width: 100%;
+          max-width: 250px;
           font-family: 'Plus Jakarta Sans', var(--font-plus-jakarta-sans), sans-serif;
           font-style: normal;
           font-weight: 400;
           font-size: 14px;
-          line-height: 22px; /* 158% */
+          line-height: 22px;
           color: #4A6072;
           letter-spacing: 0.20px;
+        }
+
+        /* ── Navigation & Contact Columns Group ── */
+        .footer-nav-group {
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          flex: 1;
+          max-width: 820px;
+          margin-left: clamp(32px, 5vw, 72px);
         }
 
         /* ── Columns: Nav Links ── */
         .footer-nav-col {
           display: flex;
           flex-direction: column;
+        }
+
+        .footer-quick-col {
+          min-width: 110px;
+        }
+
+        .footer-support-col {
+          min-width: 140px;
+        }
+
+        .footer-contact-col {
+          min-width: 230px;
         }
 
         .footer-col-title {
@@ -209,7 +343,7 @@ export default function Footer() {
           font-size: 20px;
           line-height: 26px;
           color: #002A45;
-          margin: 0 0 22px 0;
+          margin: 0 0 20px 0;
           letter-spacing: -0.01em;
         }
 
@@ -245,22 +379,75 @@ export default function Footer() {
 
         /* ── Vertical Dividers ── */
         .footer-divider-line {
-          width: 1px;
-          align-self: stretch;
-          min-height: 210px;
-          background: #DCE5ED;
-          margin: 0 54px;
+          width: 4px;
+          border-left: 1.3px solid #c8d5e0ff;
+          height: 165px;
+          min-height: 165px;
+          margin: 0 clamp(16px, 2.5vw, 36px);
           flex-shrink: 0;
+          align-self: flex-start;
         }
 
-        .footer-support-col {
-          min-width: 160px;
+        /* ── Column 4: Contact ── */
+        .footer-contact-list {
+          list-style: none;
+          margin: 0;
+          padding: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .footer-contact-item {
+          display: block;
+        }
+
+        .footer-contact-link {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          font-family: 'Plus Jakarta Sans', var(--font-plus-jakarta-sans), sans-serif;
+          font-style: normal;
+          font-weight: 400;
+          font-size: 14.5px;
+          line-height: 20px;
+          color: #4A6072;
+          text-decoration: none;
+          transition: all 0.18s ease;
+          white-space: nowrap;
+        }
+
+        .footer-contact-link:hover {
+          color: #002A45;
+        }
+
+        .footer-contact-icon-wrap {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          width: 24px;
+          height: 24px;
+          border-radius: 6px;
+          background: #F0F5F9;
+          color: #173F63;
+          flex-shrink: 0;
+          transition: all 0.2s ease;
+        }
+
+        .footer-contact-link:hover .footer-contact-icon-wrap {
+          background: #F4BC43;
+          color: #011B2F;
+          transform: translateY(-1px);
+        }
+
+        .footer-contact-text {
+          white-space: nowrap;
         }
 
         /* ── Bottom Bar ── */
         .footer-bottom-bar {
           width: 100%;
-          border-top: 1px solid #EBF1F6;
+          border-top: 1.5px solid #d8e3ebff;
           padding: 24px 20px;
           box-sizing: border-box;
           text-align: center;
@@ -277,35 +464,34 @@ export default function Footer() {
         }
 
         /* ── Responsive Overrides ── */
-        @media (max-width: 1200px) {
+        @media (max-width: 1150px) {
           .footer-container {
-            padding: 56px 36px 44px 36px;
+            padding: 56px 24px 40px 24px;
           }
-          .footer-brand-col {
-            margin-right: 50px;
+          .footer-nav-group {
+            margin-left: 28px;
           }
           .footer-divider-line {
-            margin: 0 36px;
+            margin: 0 18px;
+          }
+          .footer-contact-text {
+            white-space: normal;
           }
         }
 
-        @media (max-width: 960px) {
-          .footer-container {
-            padding: 48px 24px 36px 24px;
-          }
+        @media (max-width: 920px) {
           .footer-main-grid {
-            flex-wrap: wrap;
-            gap: 40px 0;
+            flex-direction: column;
+            gap: 36px;
           }
           .footer-brand-col {
             width: 100%;
-            margin-right: 0;
+            max-width: 480px;
           }
-          .footer-brand-desc {
-            max-width: 380px;
-          }
-          .footer-divider-line {
-            margin: 0 28px;
+          .footer-nav-group {
+            width: 100%;
+            max-width: 100%;
+            margin-left: 0;
           }
         }
 
@@ -313,32 +499,23 @@ export default function Footer() {
           .footer-container {
             padding: 36px 20px 28px 20px;
           }
-          .footer-main-grid {
+          .footer-nav-group {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            column-gap: 24px;
+            column-gap: 20px;
             row-gap: 28px;
-          }
-          .footer-brand-col {
-            grid-column: 1 / -1;
-            width: 100%;
-            margin-right: 0;
-            padding-bottom: 22px;
-            border-bottom: 1px solid #EEF3F7;
-          }
-          .footer-brand-desc {
-            max-width: 100%;
-            width: 100%;
-            font-size: 13.5px;
-            line-height: 22px;
-            color: #556B7D;
-            margin-top: 14px;
           }
           .footer-divider-line {
             display: none !important;
           }
           .footer-nav-col {
             width: 100%;
+          }
+          .footer-contact-col {
+            grid-column: 1 / -1;
+            margin-top: 8px;
+            padding-top: 20px;
+            border-top: 1px solid #EEF3F7;
           }
           .footer-col-title {
             font-size: 16px;
@@ -348,23 +525,27 @@ export default function Footer() {
             margin: 0 0 14px 0;
             letter-spacing: -0.01em;
           }
-          .footer-link-list {
+          .footer-link-list,
+          .footer-contact-list {
             display: flex;
             flex-direction: column;
             gap: 12px;
           }
-          .footer-link {
+          .footer-link,
+          .footer-contact-link {
             font-size: 14px;
             line-height: 20px;
             color: #4A6072;
             white-space: normal;
             word-break: break-word;
-            display: inline-block;
+            display: inline-flex;
             padding: 2px 0;
           }
           .footer-link:hover,
-          .footer-link:active {
-            color: #F4BC43;
+          .footer-link:active,
+          .footer-contact-link:hover,
+          .footer-contact-link:active {
+            color: #173F63;
           }
           .footer-bottom-bar {
             padding: 20px 16px;
@@ -372,20 +553,17 @@ export default function Footer() {
           }
           .footer-copyright {
             font-size: 12.5px;
-            line-height: 18px;
-            color: #71879B;
-            text-align: center;
-          }
         }
 
         @media (max-width: 380px) {
-          .footer-main-grid {
+          .footer-nav-group {
             column-gap: 16px;
           }
           .footer-col-title {
             font-size: 15px;
           }
-          .footer-link {
+          .footer-link,
+          .footer-contact-link {
             font-size: 13px;
           }
         }

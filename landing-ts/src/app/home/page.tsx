@@ -1,21 +1,56 @@
-import type { Metadata } from "next";
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Image from "next/image";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
-import { PAGE_TITLES, META_DESCRIPTIONS, SITE_METADATA } from "@/constant/metaConstant";
+import SignUpModal from "@/components/SignUpModal";
 
-export const metadata: Metadata = {
-  title: PAGE_TITLES.HOME,
-  description: META_DESCRIPTIONS.HOME,
-  icons: SITE_METADATA.icons,
-};
+function FtsChairIcon({ size = 36, color = "#011B2F" }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 44 44" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="15" y="8" width="14" height="17" rx="3.5" />
+      <line x1="15" y1="14" x2="29" y2="14" />
+      <rect x="9" y="18" width="5.5" height="12" rx="2.5" />
+      <rect x="29.5" y="18" width="5.5" height="12" rx="2.5" />
+      <rect x="13.5" y="24" width="17" height="6.5" rx="2" />
+      <line x1="14" y1="30.5" x2="12" y2="38" />
+      <line x1="30" y1="30.5" x2="32" y2="38" />
+      <line x1="12" y1="35.5" x2="32" y2="35.5" />
+    </svg>
+  );
+}
+
+function FtsChartIcon({ size = 36, color = "#011B2F" }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 44 44" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="10" y="24" width="6.5" height="13" rx="2.5" />
+      <rect x="18.75" y="15.5" width="6.5" height="21.5" rx="2.5" />
+      <rect x="27.5" y="7" width="6.5" height="30" rx="2.5" />
+    </svg>
+  );
+}
+
+function FtsTicketIcon({ size = 36, color = "#011B2F" }: { size?: number; color?: string }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 44 44" fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <g transform="rotate(-38 22 22)">
+        <path d="M8 14a4 4 0 0 1 4-4h20a4 4 0 0 1 4 4v3.5a3 3 0 0 0 0 6V27a4 4 0 0 1-4 4H12a4 4 0 0 1-4-4v-3.5a3 3 0 0 0 0-6V14z" />
+        <circle cx="22" cy="20.5" r="3" />
+      </g>
+    </svg>
+  );
+}
 
 export default function HomePage() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   return (
     <>
       {/* Fixed Header */}
-      <Header activeTab="Home" />
+      <Header activeTab="Home" onSignUpClick={openModal} />
 
       {/* ─── Hero Page Wrapper ─── */}
       <div id="home" className="hero-page">
@@ -47,12 +82,17 @@ export default function HomePage() {
             <br className="hero-desc-break" />
             ticket bookings, visitors, seating and daily operations.
           </p>
-          <a href="#explore" className="hero-cta" id="hero-explore-btn">
+          <button
+            type="button"
+            className="hero-cta"
+            id="hero-explore-btn"
+            onClick={openModal}
+          >
             <span>Explore Platform</span>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
               <path d="M3 8H13M13 8L8.5 3.5M13 8L8.5 12.5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-          </a>
+          </button>
         </div>
 
         {/* Layer 3 – Full-width landscape (outside centered container) */}
@@ -237,6 +277,7 @@ export default function HomePage() {
         </div>
       </section>
 
+
       {/* ─── Possibilities Section (Built to fit the attraction) ─── */}
       <section id="possibilities" className="pos-section">
         {/* Background clouds */}
@@ -379,6 +420,104 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ─── Features Section ─── */}
+      <section id="features" className="fts-section" aria-label="Platform Features">
+        {/* Section Header – style code matching How It Works header */}
+        <div className="fts-header">
+          <p className="fts-kicker">P L A T F O R M &nbsp; F E A T U R E S</p>
+          <h2 className="fts-title">
+            Everything you need,
+            <br />
+            <span className="fts-title-gold">connected in one place.</span>
+          </h2>
+        </div>
+
+        {/* Hero: Orbital Diagram */}
+        <div className="fts-hero">
+          <div className="fts-hero-inner">
+            {/* Orbital Diagram with scrollImg.png */}
+            <div className="fts-orbit-stage" aria-label="Feature modules orbiting the platform">
+              <div className="fts-orbit-img-wrap">
+                <Image
+                  src="/assest/images/scrollImg.png"
+                  alt="Platform Features Diagram"
+                  width={630}
+                  height={420}
+                  priority
+                  className="fts-scroll-img"
+                />
+
+                {/* Top-Left: Attractions */}
+                <div className="fts-label fts-label--attractions">
+                  <span className="fts-node-title">Attractions Management</span>
+                  <span className="fts-node-sub">Add &amp; manage destinations</span>
+                </div>
+
+                {/* Top-Right: Customers */}
+                <div className="fts-label fts-label--customers">
+                  <span className="fts-node-title">Layouts</span>
+                  <span className="fts-node-sub">Configure capacity</span>
+                </div>
+
+                {/* Bottom-Right: Operations */}
+                <div className="fts-label fts-label--operations">
+
+                  <span className="fts-node-title">Reports</span>
+                  <span className="fts-node-sub">Generate &amp; view reports</span>
+                </div>
+
+                {/* Bottom: Layouts */}
+                <div className="fts-label fts-label--layouts">
+                  <span className="fts-node-title">Complimentary Pass</span>
+                  <span className="fts-node-sub">Manage VIP pass</span>
+                </div>
+
+                {/* Middle-Left: Bookings */}
+                <div className="fts-label fts-label--bookings">
+                  <span className="fts-node-title">CCTV Monitoring</span>
+                  <span className="fts-node-sub">View live footage</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Bottom Highlights Bar */}
+        <div className="fts-bar" aria-label="Key platform highlights">
+          <div className="fts-bar-inner">
+            <div className="fts-bar-item">
+              <div className="fts-bar-icon-wrap">
+                <FtsTicketIcon size={26} color="#011B2F" />
+              </div>
+              <div className="fts-bar-text">
+                <span className="fts-bar-title">Smart Ticketing</span>
+                <span className="fts-bar-sub">Fast and organized booking.</span>
+              </div>
+            </div>
+            <div className="fts-bar-divider" aria-hidden="true" />
+            <div className="fts-bar-item">
+              <div className="fts-bar-icon-wrap">
+                <FtsChairIcon size={26} color="#011B2F" />
+              </div>
+              <div className="fts-bar-text">
+                <span className="fts-bar-title">Flexible Layouts</span>
+                <span className="fts-bar-sub">Manage seating and attraction layouts.</span>
+              </div>
+            </div>
+            <div className="fts-bar-divider" aria-hidden="true" />
+            <div className="fts-bar-item">
+              <div className="fts-bar-icon-wrap">
+                <FtsChartIcon size={26} color="#011B2F" />
+              </div>
+              <div className="fts-bar-text">
+                <span className="fts-bar-title">Complete Control</span>
+                <span className="fts-bar-sub">Track operations from one platform.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* ─── CTA Banner Section (Ready to take control?) ─── */}
       <section id="cta" className="cta-section">
         {/* Background clouds */}
@@ -398,12 +537,17 @@ export default function HomePage() {
             <div className="cta-content">
               <p className="cta-kicker">YOUR OPERATIONS, ONE PLATFORM.</p>
               <h2 className="cta-title">Ready to take control?</h2>
-              <a href="#enter" className="cta-btn" id="cta-enter-btn">
+              <button
+                type="button"
+                className="cta-btn"
+                id="cta-enter-btn"
+                onClick={openModal}
+              >
                 <span>Enter Ticketing Solution</span>
                 <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
                   <path d="M4 10H16M16 10L10.5 4.5M16 10L10.5 15.5" stroke="#002A45" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
-              </a>
+              </button>
             </div>
 
             {/* Right Palace/Mahal Illustration */}
@@ -423,6 +567,9 @@ export default function HomePage() {
 
       {/* ─── Footer Section ─── */}
       <Footer />
+
+      {/* ─── Sign Up Modal ─── */}
+      <SignUpModal isOpen={isModalOpen} onClose={closeModal} />
 
       <style dangerouslySetInnerHTML={{
         __html: `
@@ -521,6 +668,8 @@ export default function HomePage() {
           padding: 0 30px;
           background: #011B2F;
           border-radius: 30px;
+          border: none;
+          cursor: pointer;
           font-family: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', sans-serif;
           font-weight: 600;
           font-size: 15px;
@@ -560,6 +709,7 @@ export default function HomePage() {
           padding-top: clamp(60px, 8vw, 85px);
           padding-bottom: clamp(10px, 2vw, 24px);
           overflow-x: clip;
+          scroll-margin-top: 74px;
         }
 
         /* Background clouds */
@@ -723,6 +873,353 @@ export default function HomePage() {
           height: auto;
           object-fit: contain;
           border-radius: 12px;
+        }
+
+        /* ═══════════════════════════════════════════════
+           ── FEATURES SECTION ──
+        ═══════════════════════════════════════════════ */
+        .fts-section {
+          width: 100%;
+          background: #ffffff;
+          scroll-margin-top: 74px;
+          display: flex;
+          flex-direction: column;
+          padding-top: clamp(24px, 4vw, 56px);
+        }
+
+        /* Section Header (styled identical to How It Works header) */
+        .fts-header {
+          position: relative;
+          z-index: 2;
+          text-align: center;
+          max-width: 1200px;
+          margin: 0 auto clamp(20px, 3vw, 36px) auto;
+          padding: 0 24px;
+        }
+
+        .fts-kicker {
+          font-family: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', sans-serif;
+          font-weight: 600;
+          font-size: clamp(9px, 1.1vw, 12px);
+          line-height: 18px;
+          letter-spacing: 0.20em;
+          text-transform: uppercase;
+          color: #8394a2ff;
+          margin: 0 0 12px;
+        }
+
+        .fts-title {
+          font-family: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', sans-serif;
+          font-weight: 800;
+          font-size: clamp(26px, 3.3vw, 46px);
+          line-height: 1.2;
+          letter-spacing: -0.015em;
+          color: #011B2F;
+          margin: 0;
+        }
+
+        .fts-title-gold {
+          color: #F4BC43;
+        }
+
+        /* Hero (orbital diagram) */
+        .fts-hero {
+          background: #ffffff;
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 8px 24px 0;
+          overflow: hidden;
+          position: relative;
+        }
+
+        .fts-hero-inner {
+          width: 100%;
+          max-width: 1060px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        /* Orbit stage container with scrollImg.png */
+        .fts-orbit-stage {
+          width: 100%;
+          max-width: 980px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+          padding: 44px 40px 52px;
+          margin-bottom: 0px;
+        }
+
+        .fts-orbit-img-wrap {
+          position: relative;
+          width: 100%;
+          max-width: 660px;
+        }
+
+        .fts-scroll-img {
+          width: 100%;
+          height: auto;
+          display: block;
+          object-fit: contain;
+          filter: drop-shadow(0 14px 34px rgba(1, 27, 47, 0.08));
+        }
+
+        /* Overlaid feature labels */
+        .fts-label {
+          position: absolute;
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          pointer-events: none;
+          z-index: 3;
+        }
+
+        .fts-node-title {
+          font-family: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', sans-serif;
+          font-size: clamp(12.5px, 1.35vw, 15px);
+          font-weight: 700;
+          color: #011B2F;
+          line-height: 1.25;
+          white-space: nowrap;
+        }
+
+        .fts-node-sub {
+          font-family: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', sans-serif;
+          font-size: clamp(10.5px, 1.1vw, 12.5px);
+          font-weight: 400;
+          color: #5A7184;
+          line-height: 1.35;
+          white-space: nowrap;
+        }
+
+        /* Positions relative to scrollImg.png */
+        /* Top: Attractions Management - positioned directly ABOVE the Attraction icon */
+        .fts-label--attractions {
+          top: -5%;
+          left: 29.5%;
+          transform: translateX(-50%);
+          text-align: center;
+          align-items: center;
+        }
+
+        /* Top-Right: Layouts */
+        .fts-label--customers {
+          top: 22%;
+          left: 92%;
+          transform: translateY(-50%);
+          text-align: left;
+          align-items: flex-start;
+        }
+
+        /* Bottom-Right: Reports */
+        .fts-label--operations {
+          top: 66%;
+          left: 94%;
+          transform: translateY(-50%);
+          text-align: left;
+          align-items: flex-start;
+        }
+
+        /* Bottom: Complimentary Pass - positioned directly BELOW the Complimentary Pass icon */
+        .fts-label--layouts {
+          top: 98%;
+          left: 43.5%;
+          transform: translateX(-50%);
+          text-align: center;
+          align-items: center;
+        }
+
+        /* Middle-Left: CCTV Monitoring - centered beneath the left card, completely clear of yellow dot */
+        .fts-label--bookings {
+          top: 66%;
+          left: 12%;
+          transform: translateX(-50%);
+          text-align: center;
+          align-items: center;
+        }
+
+        /* Bottom Highlights Bar */
+        .fts-bar {
+          background: #ffffff;
+          width: 100%;
+          padding: 26px 24px 24px;
+          margin-top: 40px;
+        }
+
+        .fts-bar-inner {
+          max-width: 960px;
+          margin: 0 auto;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .fts-bar-item {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          flex: 1;
+          justify-content: center;
+          padding: 8px 20px;
+        }
+
+        .fts-bar-icon-wrap {
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          background: #FFF9EC;
+          border: 2px solid #F4BC43;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          box-shadow: 0 4px 12px rgba(244, 188, 67, 0.2);
+        }
+
+        .fts-bar-text {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+        }
+
+        .fts-bar-title {
+          font-family: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', sans-serif;
+          font-size: 15px;
+          font-weight: 700;
+          color: #011B2F;
+          line-height: 1.3;
+        }
+
+        .fts-bar-sub {
+          font-family: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', sans-serif;
+          font-size: 12.5px;
+          font-weight: 400;
+          color: #5A7184;
+          line-height: 1.4;
+        }
+
+        .fts-bar-divider {
+          width: 1px;
+          height: 44px;
+          background: #E2E8F0;
+          flex-shrink: 0;
+        }
+
+        /* ── Features Responsive ── */
+        @media (max-width: 900px) {
+          .fts-orbit-stage {
+            padding: 38px 24px 44px;
+            margin-bottom: 0;
+          }
+          .fts-orbit-img-wrap {
+            max-width: 540px;
+          }
+          .fts-label--customers {
+            left: 90%;
+          }
+          .fts-label--operations {
+            left: 91%;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .fts-header {
+            margin-bottom: 16px;
+          }
+          .fts-hero {
+            padding: 4px 16px 0;
+          }
+          .fts-orbit-stage {
+            padding: 32px 16px 38px;
+            margin-bottom: 0;
+          }
+          .fts-orbit-img-wrap {
+            max-width: 440px;
+          }
+          .fts-node-sub {
+            display: none;
+          }
+          .fts-node-title {
+            font-size: 11px;
+          }
+          .fts-label--attractions {
+            top: -10%;
+          }
+          .fts-label--layouts {
+            top: 97%;
+          }
+          .fts-label--bookings {
+            top: 65%;
+            left: 12%;
+          }
+
+          .fts-bar {
+            padding: 14px 20px 20px;
+          }
+          .fts-bar-inner {
+            flex-direction: column;
+            gap: 12px;
+          }
+          .fts-bar-divider {
+            width: 60%;
+            height: 1px;
+            margin: 4px 0;
+          }
+          .fts-bar-item {
+            justify-content: flex-start;
+            width: 100%;
+            max-width: 320px;
+            padding: 6px 0;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .fts-orbit-stage {
+            padding: 26px 10px 32px;
+          }
+          .fts-orbit-img-wrap {
+            max-width: 310px;
+          }
+          .fts-node-title {
+            font-size: 9.5px;
+          }
+          .fts-label--attractions {
+            top: -10%;
+            left: 29.5%;
+          }
+          .fts-label--customers {
+            left: 88%;
+          }
+          .fts-label--operations {
+            left: 89%;
+          }
+          .fts-label--layouts {
+            top: 97%;
+            left: 43.5%;
+          }
+          .fts-label--bookings {
+            top: 65%;
+            left: 12%;
+          }
+        }
+
+        @media (max-width: 360px) {
+          .fts-orbit-img-wrap {
+            max-width: 280px;
+          }
+          .fts-node-title {
+            font-size: 8.5px;
+          }
+          .fts-label--customers {
+            left: 86%;
+          }
+          .fts-label--operations {
+            left: 87%;
+          }
         }
 
         /* ═══════════════════════════════════════════════
@@ -1001,6 +1498,8 @@ export default function HomePage() {
           padding: 0 32px;
           background: linear-gradient(180deg, #8ECAF3 0%, #DFF2FF 100%);
           border-radius: 44px;
+          border: none;
+          cursor: pointer;
           font-family: var(--font-plus-jakarta-sans), 'Plus Jakarta Sans', sans-serif;
           font-weight: 600;
           font-size: 15px;
@@ -1057,7 +1556,15 @@ export default function HomePage() {
             width: min(740px, 80%);
           }
           .hero-content {
-            padding-top: clamp(120px, 20%, 220px);
+            padding-top: clamp(100px, 16%, 180px);
+            padding-bottom: clamp(40px, 8%, 100px);
+          }
+          .hero-page {
+            min-height: auto;
+          }
+          .hero-landscape {
+            height: 52%;
+            min-height: 220px;
           }
           .hero-title {
             font-size: clamp(26px, 4vw, 46px);
@@ -1101,6 +1608,29 @@ export default function HomePage() {
           .pos-card-3 {
             grid-column: 1 / -1;
             max-width: 380px;
+          }
+
+          /* CTA Tablet — keep mahal inside card, no overflow */
+          .cta-card {
+            padding: 48px 40px 48px 60px;
+            min-height: 300px;
+            overflow: hidden;
+          }
+          .cta-img-wrap {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            top: 0;
+            width: clamp(240px, 38%, 400px);
+            overflow: hidden;
+            align-items: flex-end;
+            justify-content: flex-end;
+          }
+          .cta-mahal-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: right bottom;
           }
         }
 

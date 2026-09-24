@@ -1,16 +1,14 @@
 export const APP_NAME = "Ticketing Solution";
 
 export const PAGE_TITLES = {
-  HOME: "Home | Ticketing Solution",
-  PROCESS: "Process | Ticketing Solution",
-  FEATURES: "Features | Ticketing Solution",
-  ABOUT: "About | Ticketing Solution",
-  SIGNUP: "Sign Up | Ticketing Solution",
-  HELP_CENTER: "Help Center | Ticketing Solution",
-  FAQS: "FAQs | Ticketing Solution",
-  TERMS: "Terms & Conditions | Ticketing Solution",
-  PRIVACY: "Privacy Policy | Ticketing Solution",
-  CANCELLATION: "Cancellation Policy | Ticketing Solution",
+  HOME: "Ticketing Solution",
+  PROCESS: "Ticketing Solution",
+  FEATURES: "Ticketing Solution",
+  SIGNUP: "Ticketing Solution",
+  HELP_CENTER: "Ticketing Solution",
+  FAQS: "Ticketing Solution",
+  TERMS: "Ticketing Solution",
+  PRIVACY: "Ticketing Solution",
 } as const;
 
 export const META_DESCRIPTIONS = {
@@ -24,7 +22,7 @@ export const META_DESCRIPTIONS = {
 } as const;
 
 export const SITE_METADATA = {
-  title: PAGE_TITLES.HOME,
+  title: "Ticketing Solution",
   description: META_DESCRIPTIONS.DEFAULT,
   icons: {
     icon: "/assest/images/logo.png",

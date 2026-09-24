@@ -3,7 +3,7 @@ import { PAGE_TITLES, META_DESCRIPTIONS, SITE_METADATA } from "@/constant/metaCo
 import HomePage from "./home/page";
 
 export const metadata: Metadata = {
-  title: PAGE_TITLES.HOME,
+  title: "Ticketing Solution",
   description: META_DESCRIPTIONS.HOME,
   icons: SITE_METADATA.icons,
 };
