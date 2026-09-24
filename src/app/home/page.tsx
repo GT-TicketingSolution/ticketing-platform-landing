@@ -468,14 +468,14 @@ export default function HomePage() {
 
                 {/* Bottom: Layouts */}
                 <div className="fts-label fts-label--layouts">
-                  <span className="fts-node-title">Complimentary Pass</span>
-                  <span className="fts-node-sub">Manage VIP pass</span>
+                   <span className="fts-node-title">CCTV Monitoring</span>
+                  <span className="fts-node-sub">View live footage</span>
                 </div>
 
                 {/* Middle-Left: Bookings */}
                 <div className="fts-label fts-label--bookings">
-                  <span className="fts-node-title">CCTV Monitoring</span>
-                  <span className="fts-node-sub">View live footage</span>
+                   <span className="fts-node-title">Complimentary Passes</span>
+                  <span className="fts-node-sub">Manage VIP pass</span>
                 </div>
               </div>
             </div>
@@ -1036,7 +1036,7 @@ export default function HomePage() {
         /* Middle-Left: CCTV Monitoring - centered beneath the left card, completely clear of yellow dot */
         .fts-label--bookings {
           top: 66%;
-          left: 12%;
+          left: 8%;
           transform: translateX(-50%);
           text-align: center;
           align-items: center;
